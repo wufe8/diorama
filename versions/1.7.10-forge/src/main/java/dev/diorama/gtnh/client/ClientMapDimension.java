@@ -3,7 +3,6 @@ package dev.diorama.gtnh.client;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.WorldProviderHell;
-import net.minecraft.world.WorldProviderSurface;
 
 import org.jspecify.annotations.Nullable;
 
@@ -40,7 +39,8 @@ enum ClientMapDimension {
         Class<?> type = world.provider.getClass();
         int id = world.provider.dimensionId;
         boolean noSky = world.provider.hasNoSky;
-        if (type == WorldProviderSurface.class && id == OVERWORLD.id && !noSky) return OVERWORLD;
+        // Modded Overworld providers may not have the exact vanilla provider class.
+        if (id == OVERWORLD.id && !noSky) return OVERWORLD;
         if (type == WorldProviderHell.class && id == NETHER.id && noSky) return NETHER;
         if (type == WorldProviderEnd.class && id == END.id && noSky) return END;
         return null;
